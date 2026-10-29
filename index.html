@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Pokédex interativa da primeira geração de Pokémon."
+    >
+
+    <title>Pokédex de Kanto</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Biblioteca de ícones opcional para uso futuro -->
+</head>
+
+<body>
+    <header class="cabecalho">
+        <h1>Pokédex de Kanto</h1>
+        <p>Explore os 151 Pokémon da primeira geração.</p>
+    </header>
+
+    <main class="conteudo-principal">
+
+        <div class="pokedex-aberta">
+
+            <!-- LADO ESQUERDO: CORPO DA POKÉDEX -->
+            <section class="pokedex" aria-label="Pokédex">
+
+                <div class="pokedex_indicadores">
+                    <span
+                        class="luz luz--azul"
+                        aria-label="Indicador azul"
+                    ></span>
+
+                    <span
+                        class="luz luz--vermelha"
+                        aria-label="Indicador vermelho"
+                    ></span>
+
+                    <span
+                        class="luz luz-amarela"
+                        aria-label="Indicador amarelo"
+                    ></span>
+
+                    <span
+                        class="luz luz--verde"
+                        aria-label="Indicador verde"
+                    ></span>
+                </div>
+
+                <!-- Tela principal com a imagem do Pokémon -->
+                <section class="pokedex_tela" aria-label="Pokémon selecionado">
+
+                    <div class="identificacao-pokemon">
+                        <span id="numero-pokemon">N° 001</span>
+                        <h2 id="nome-pokemon">Bulbasaur</h2>
+                    </div>
+
+                    <div class="janela-imagem">
+                        <img
+                            id="imagem-pokemon"
+                            src=""
+                            alt="Imagem do Pokémon selecionado"
+                        >
+                    </div>
+
+                </section>
+
+                <!-- Dois espaços para os tipos -->
+                <div
+                    id="tipo-pokemon"
+                    class="pokedex_tipos"
+                    aria-label="Tipos do Pokémon"
+                >
+                    <span class="tipo-slot"></span>
+                    <span class="tipo-slot"></span>
+                </div>
+
+                <!-- Controles inferiores -->
+                <div class="pokedex_controles">
+
+                    <button
+                        id="anterior"
+                        class="botao-navegacao botao-anterior"
+                        type="button"
+                        aria-label="Pokémon anterior"
+                        title="Pokémon anterior"
+                    >
+                        ◀
+                    </button>
+
+                    <form
+                        id="form-pesquisa"
+                        class="pokedex_pesquisa"
+                        role="search"
+                    >
+                        <label
+                            class="texto-acessivel"
+                            for="campo-pesquisa"
+                        >
+                            Pesquisar Pokémon por nome ou número
+                        </label>
+
+                        <input
+                            type="text"
+                            id="campo-pesquisa"
+                            placeholder="Nº ou nome"
+                            autocomplete="off"
+                            maxlength="30"
+                        >
+
+                        <button
+                            id="botao-pesquisar"
+                            type="submit"
+                            aria-label="Pesquisar Pokémon"
+                            title="Pesquisar"
+                            hidden="True"
+                        >
+                            OK
+                        </button>
+                    </form>
+
+                    <button
+                        id="proximo"
+                        class="botao-navegacao botao-proximo"
+                        type="button"
+                        aria-label="Próximo Pokémon"
+                        title="Próximo Pokémon"
+                    >
+                        ▶
+                    </button>
+
+                </div>
+
+                <p
+                    id="mensagem-pesquisa"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </section>
+
+            <!-- LADO DIREITO: INFORMAÇÕES E LISTA -->
+            <aside class="pokedex-lado-direito">
+
+                <!-- Painel verde com todas as informações -->
+                <section
+                    class="painel-informacoes"
+                    aria-labelledby="titulo-informacoes"
+                >
+                    <h2 id="titulo-informacoes">
+                        Informações do Pokémon
+                    </h2>
+
+                    <div class="dados-basicos">
+                        <p id="altura-pokemon">
+                            Altura: carregando...
+                        </p>
+
+                        <p id="peso-pokemon">
+                            Peso: carregando...
+                        </p>
+                    </div>
+
+                    <section class="secao-descricao">
+                        <h3>Descrição</h3>
+
+                        <p id="descricao-pokemon" aria-live="polite">
+                            Carregando descrição...
+                        </p>
+                    </section>
+
+                    <section class="secao-relacoes">
+                        <h3>Vantagens</h3>
+
+                        <div
+                            id="vantagens-pokemon"
+                            class="lista-relacoes"
+                            aria-live="polite"
+                        >
+                            Carregando...
+                        </div>
+                    </section>
+
+                    <section class="secao-relacoes">
+                        <h3>Fraquezas</h3>
+
+                        <div
+                            id="fraquezas-pokemon"
+                            class="lista-relacoes"
+                            aria-live="polite"
+                        >
+                            Carregando...
+                        </div>
+                    </section>
+                </section>
+
+                <!-- Lista vertical de Pokémon -->
+                <section
+                    class="painel-lista"
+                    aria-labelledby="titulo-lista"
+                >
+                    <h2 id="titulo-lista">Pokémon de Kanto</h2>
+
+                    <label for="filtro-tipo">
+                        Filtrar por tipo
+                    </label>
+
+                    <select id="filtro-tipo">
+                        <option value="todos">Todos os tipos</option>
+                        <option value="normal">Normal</option>
+                        <option value="fire">Fogo</option>
+                        <option value="water">Água</option>
+                        <option value="electric">Elétrico</option>
+                        <option value="grass">Grama</option>
+                        <option value="ice">Gelo</option>
+                        <option value="fighting">Lutador</option>
+                        <option value="poison">Veneno</option>
+                        <option value="ground">Terra</option>
+                        <option value="flying">Voador</option>
+                        <option value="psychic">Psíquico</option>
+                        <option value="bug">Inseto</option>
+                        <option value="rock">Pedra</option>
+                        <option value="ghost">Fantasma</option>
+                        <option value="dragon">Dragão</option>
+                        <option value="dark">Sombrio</option>
+                        <option value="steel">Aço</option>
+                        <option value="fairy">Fada</option>
+                    </select>
+
+                    <p id="status-lista" role="status" aria-live="polite">
+                        Carregando lista...
+                    </p>
+
+                    <!-- Este ID deve aparecer somente uma vez no HTML -->
+                    <ol id="lista-pokemon"></ol>
+                </section>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <footer class="rodape">
+        <p>Pokédex de Kanto · Dados fornecidos pela PokéAPI</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

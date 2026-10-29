@@ -1,0 +1,714 @@
+/* =========================
+   CONFIGURAÇÕES GERAIS
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --vermelho: #ed171f;
+    --vermelho-escuro: #a90f18;
+    --verde-painel: #64a34f;
+    --cinza: #c8d0d8;
+    --preto: #101214;
+    --texto: #20252b;
+    --borda: #30343b;
+}
+
+body {
+    margin: 0;
+    padding: 28px 16px 40px;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: #20252b;
+    background-image: radial-gradient(#424b55 1px, transparent 1px);
+    background-size: 18px 18px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================
+   CABEÇALHO E ESTRUTURA
+========================= */
+
+.cabecalho {
+    width: min(100%, 1100px);
+    margin: 0 auto 24px;
+    text-align: center;
+}
+
+.cabecalho h1 {
+    margin: 0 0 8px;
+    font-size: clamp(24px, 4vw, 36px);
+}
+
+.cabecalho p {
+    margin: 0;
+    color: #d0d5da;
+}
+
+.conteudo-principal {
+    width: min(100%, 1100px);
+    margin: 0 auto;
+}
+
+/* Duas metades iguais: a dobradiça fica sempre no centro (50%) */
+.pokedex-aberta {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0;
+    filter: drop-shadow(0 14px 22px #0006);
+}
+
+/* Abas da dobradiça (topo e base), centralizadas na junção */
+.pokedex-aberta::before,
+.pokedex-aberta::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    z-index: 5;
+    width: 24px;
+    background: var(--vermelho);
+    border: 3px solid #0000003d;
+    border-radius: 12px;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.pokedex-aberta::before {
+    top: 24px;
+    height: 34px;
+}
+
+.pokedex-aberta::after {
+    bottom: -8px;
+    height: 30px;
+}
+
+/* =========================
+   LADO ESQUERDO: CORPO DA POKÉDEX
+========================= */
+
+.pokedex {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 22px 28px 22px 22px;
+    background: var(--vermelho);
+    border-radius: 14px 0 0 14px;
+}
+
+/* Linha escura em degrau (continua a borda superior do lado direito) */
+.pokedex::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: var(--vermelho-escuro);
+    clip-path: polygon(
+        0 92px,
+        calc(100% - 150px) 92px,
+        calc(100% - 80px) 34px,
+        100% 34px,
+        100% 38px,
+        calc(100% - 80px) 38px,
+        calc(100% - 150px) 96px,
+        0 96px
+    );
+    pointer-events: none;
+}
+
+.pokedex > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Indicadores luminosos */
+
+.pokedex_indicadores {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    min-height: 94px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.luz {
+    display: block;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    border: 2px solid #00000030;
+    border-radius: 50%;
+}
+
+.luz--azul {
+    width: 58px;
+    height: 58px;
+    margin: 0 8px 0 0;
+    background: #0754b5;
+    border: 5px solid #fff;
+    box-shadow: 0 0 0 2px #1a1d21;
+}
+
+.luz--vermelha {
+    background: #ff5757;
+}
+
+.luz-amarela {
+    background: #ffe34f;
+}
+
+.luz--verde {
+    background: #52df60;
+}
+
+/* =========================
+   TELA DO POKÉMON
+========================= */
+
+/* Moldura cinza grossa, mais larga embaixo, com a tela preta dentro */
+.pokedex_tela {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 330px;
+    padding: 12px;
+    color: #fff;
+    background: var(--preto);
+    border-style: solid;
+    border-color: var(--cinza);
+    border-width: 14px 14px 46px 14px;
+    border-radius: 16px;
+}
+
+/* Bolinha vermelha (canto inferior esquerdo da moldura) */
+.pokedex_tela::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    bottom: -32px;
+    width: 16px;
+    height: 16px;
+    background: #8f1017;
+    border-radius: 50%;
+}
+
+/* Alto-falante (canto inferior direito da moldura) */
+.pokedex_tela::after {
+    content: "";
+    position: absolute;
+    right: 6px;
+    bottom: -34px;
+    width: 46px;
+    height: 20px;
+    background: repeating-linear-gradient(
+        to bottom,
+        #7b858d 0 2px,
+        transparent 2px 6px
+    );
+    pointer-events: none;
+}
+
+.identificacao-pokemon {
+    position: relative;
+    z-index: 1;
+    text-align: left;
+}
+
+#numero-pokemon {
+    margin: 0;
+    color: #c2c9cf;
+    font-size: 12px;
+}
+
+#nome-pokemon {
+    margin: 4px 0 0;
+    color: #fff;
+    font-size: clamp(18px, 2vw, 24px);
+    text-transform: capitalize;
+}
+
+.janela-imagem {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+#imagem-pokemon {
+    display: block;
+    width: min(100%, 230px);
+    height: 220px;
+    margin: 2px auto 0;
+    object-fit: contain;
+    image-rendering: auto;
+}
+
+/* =========================
+   TIPOS DO POKÉMON (dois botões cinza)
+========================= */
+
+.pokedex_tipos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.tipo-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 38px;
+    padding: 8px;
+    overflow-wrap: anywhere;
+    color: #20252b;
+    background: var(--cinza);
+    border: 0;
+    border-radius: 9px;
+    box-shadow: inset 0 -3px 0 #0000002e;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+/* Cores dos tipos */
+
+.tipo-normal   { background: #a8a878; }
+.tipo-fire     { background: #f08030; }
+.tipo-water    { background: #6890f0; }
+.tipo-electric { background: #f8d030; }
+.tipo-grass    { background: #78c850; }
+.tipo-ice      { background: #98d8d8; }
+.tipo-fighting { background: #c03028; }
+.tipo-poison   { background: #a040a0; }
+.tipo-ground   { background: #e0c068; }
+.tipo-flying   { background: #a890f0; }
+.tipo-psychic  { background: #f85888; }
+.tipo-bug      { background: #a8b820; }
+.tipo-rock     { background: #b8a038; }
+.tipo-ghost    { background: #705898; }
+.tipo-dragon   { background: #7038f8; }
+.tipo-dark     { background: #705848; }
+.tipo-steel    { background: #b8b8d0; }
+.tipo-fairy    { background: #ee99ac; }
+
+/* =========================
+   NAVEGAÇÃO E PESQUISA (setas + pílula cinza)
+========================= */
+
+.pokedex_controles {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+}
+
+.botao-navegacao {
+    width: 34px;
+    height: 42px;
+    padding: 0;
+    color: #e3e7eb;
+    background: transparent;
+    border: 0;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.botao-navegacao:hover {
+    color: #ffe34f;
+    transform: scale(1.08);
+}
+
+.pokedex_pesquisa {
+    display: flex;
+    min-width: 0;
+    gap: 5px;
+}
+
+.pokedex_pesquisa input {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    padding: 9px 14px;
+    color: var(--texto);
+    background: var(--cinza);
+    border: 0;
+    border-radius: 999px;
+    box-shadow: inset 0 -3px 0 #0000002e;
+    font-size: 13px;
+    text-align: center;
+}
+
+.pokedex_pesquisa input::placeholder {
+    color: #5d6770;
+}
+
+.pokedex_pesquisa button {
+    padding: 7px 9px;
+    color: var(--texto);
+    background: var(--cinza);
+    border: 0;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#mensagem-pesquisa {
+    min-height: 18px;
+    margin: 8px 0 0;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   LADO DIREITO (topo mais baixo + corte diagonal)
+========================= */
+
+.pokedex-lado-direito {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+    margin-top: 34px;
+    padding: 82px 22px 22px 28px;
+    background: var(--vermelho);
+    border-radius: 0 0 14px 0;
+    box-shadow: inset 2px 0 0 #0000002e;
+    clip-path: polygon(
+        0 0,
+        calc(100% - 300px) 0,
+        calc(100% - 250px) 50px,
+        100% 50px,
+        100% 100%,
+        0 100%
+    );
+}
+
+/* =========================
+   PAINEL VERDE
+========================= */
+
+.painel-informacoes {
+    min-width: 0;
+    padding: 18px;
+    color: #142014;
+    background: var(--verde-painel);
+    border: 0;
+    border-radius: 8px;
+}
+
+.painel-informacoes > h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+}
+
+/* Altura e peso: SEM fundo cinza/branco */
+
+.dados-basicos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.dados-basicos p {
+    margin: 0;
+    padding: 0;
+    overflow-wrap: anywhere;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.secao-descricao,
+.secao-relacoes {
+    margin-top: 15px;
+}
+
+.secao-descricao h3,
+.secao-relacoes h3 {
+    margin: 0 0 7px;
+    font-size: 15px;
+}
+
+#descricao-pokemon {
+    margin: 0;
+    color: #142014;
+    font-size: 13px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+/* Vantagens e fraquezas: texto simples, sem caixas destacadas */
+
+.lista-relacoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 8px;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.painel-informacoes .lista-relacoes .etiqueta-tipo {
+    display: inline;
+    padding: 0;
+    color: #142014;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    font-weight: bold;
+}
+
+.painel-informacoes .lista-relacoes .etiqueta-tipo:not(:last-child)::after {
+    content: ",";
+}
+
+/* =========================
+   PAINEL CINZA: LISTA DE POKÉMON
+========================= */
+
+.painel-lista {
+    min-width: 0;
+    padding: 15px;
+    color: var(--texto);
+    background: var(--cinza);
+    border: 0;
+    border-radius: 8px;
+}
+
+.painel-lista h2 {
+    margin: 0 0 12px;
+    color: var(--texto);
+    font-size: 18px;
+}
+
+.painel-lista label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#filtro-tipo {
+    display: block;
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 9px;
+    color: var(--texto);
+    background: #fff;
+    border: 2px solid #aab3a4;
+    border-radius: 7px;
+    font-size: 13px;
+}
+
+#status-lista {
+    margin: 7px 0;
+    font-size: 12px;
+}
+
+#lista-pokemon {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 250px;
+    margin: 0;
+    padding: 6px 6px 6px 34px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: var(--texto);
+    background: #f8faf7;
+    border: 2px solid #b1bac1;
+    border-radius: 7px;
+    scrollbar-width: thin;
+    scrollbar-color: #7b858d #e5e9ec;
+}
+
+#lista-pokemon li {
+    padding: 7px 6px;
+    border-bottom: 1px solid #e0e4dc;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+#lista-pokemon li:hover {
+    background: #dce8d3;
+}
+
+#lista-pokemon li.selecionado {
+    background: #c8d7db;
+    font-weight: bold;
+    outline: 1px solid #8ca2a8;
+}
+
+#lista-pokemon li[hidden] {
+    display: none;
+}
+
+/* =========================
+   RODAPÉ E ACESSIBILIDADE
+========================= */
+
+.rodape {
+    margin-top: 24px;
+    color: #c7cdd3;
+    font-size: 12px;
+    text-align: center;
+}
+
+.texto-acessivel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+#lista-pokemon li:focus-visible {
+    outline: 3px solid #ffe34f;
+    outline-offset: 2px;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 900px) {
+    .pokedex-lado-direito {
+        padding-left: 24px;
+        clip-path: polygon(
+            0 0,
+            calc(100% - 200px) 0,
+            calc(100% - 150px) 50px,
+            100% 50px,
+            100% 100%,
+            0 100%
+        );
+    }
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 18px 10px 28px;
+    }
+
+    .pokedex-aberta {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .pokedex-aberta::before,
+    .pokedex-aberta::after {
+        display: none;
+    }
+
+    .pokedex {
+        padding: 18px;
+        border-radius: 14px 14px 0 0;
+    }
+
+    .pokedex::before {
+        display: none;
+    }
+
+    .pokedex_indicadores {
+        min-height: 78px;
+    }
+
+    .pokedex_tela {
+        min-height: 280px;
+        border-width: 12px 12px 42px 12px;
+    }
+
+    #imagem-pokemon {
+        height: 205px;
+    }
+
+    .pokedex-lado-direito {
+        gap: 12px;
+        margin-top: 0;
+        padding: 18px;
+        border-radius: 0 0 14px 14px;
+        box-shadow: none;
+        clip-path: none;
+    }
+
+    .painel-informacoes {
+        padding: 15px;
+    }
+
+    #lista-pokemon {
+        max-height: 240px;
+    }
+}
+
+@media (max-width: 360px) {
+    .pokedex {
+        padding: 12px;
+    }
+
+    .pokedex-lado-direito {
+        padding: 12px;
+    }
+
+    .pokedex_controles {
+        grid-template-columns: 27px minmax(0, 1fr) 27px;
+        gap: 4px;
+    }
+
+    .botao-navegacao {
+        width: 27px;
+        font-size: 21px;
+    }
+
+    .pokedex_pesquisa input {
+        padding: 8px 5px;
+        font-size: 11px;
+    }
+
+    .dados-basicos {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
